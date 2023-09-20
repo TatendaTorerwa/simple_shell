@@ -12,10 +12,10 @@ void display_the_prompt(void)
 
 
 /**
- * _getline - a custom getline function.
+ * own_getline - a custom getline function.
  * Return: a pointer to the buffer containing the user input.
  */
-char *_getline()
+char *own_getline(void)
 {
 	char current_char = 0;
 	int position, read_status;

@@ -25,7 +25,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 		if (isatty(STDIN_FILENO))
 			display_the_prompt();
 
-		user_input = _getline();
+		user_input = own_getline();
 		if (user_input[0] == '\0')
 			continue;
 

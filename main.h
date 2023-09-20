@@ -73,7 +73,7 @@ void *re_allocate(void *ptr, unsigned int old_size, unsigned int new_size);
 
 /* Prompting functions prototypes included. */
 void display_the_prompt(void);
-char *_getline(void);
+char *own_getline(void);
 void handle_control_c(int r_signal);
 unsigned int check_delimiter_characters(char c, const char *str);
 
