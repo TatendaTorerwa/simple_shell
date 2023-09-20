@@ -18,7 +18,8 @@ void display_the_prompt(void)
 char *own_getline(void)
 {
 	char current_char = 0;
-	int position, read_status;
+	int position;
+	int read_status;
 	int buffer_size = BUFFER_CAPACITY;
 	char *input_buffer = malloc(buffer_size);
 
@@ -27,7 +28,6 @@ char *own_getline(void)
 		free(input_buffer);
 		return (NULL);
 	}
-
 	for (position = 0; current_char != EOF && current_char != '\n'; position++)
 	{
 		fflush(stdin);
