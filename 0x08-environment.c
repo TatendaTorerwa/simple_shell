@@ -29,21 +29,21 @@ int enviro(__attribute__((unused)) char **cmd, __attribute__((unused)) int er)
  */
 char *get_enviro_value(char *name)
 {
-	size_t nl;
-	size_t vl;
+	size_t name_length;
+	size_t env_length;
 	char *value;
+	int position;
+	int index;
 	int i;
-	int x;
-	int j;
 
-	nl = _strlen(name);
+	name_length = _strlen(name);
 
-	for (i = 0 ; environ[i]; i++)
+	for (position = 0; environ[position]; position++)
 	{
-		if (_strncmp(name, environ[i], nl) == 0)
+		if (_strncmp(name, environ[position], name_length) == 0)
 		{
-			vl = _strlen(environ[i]) - nl;
-			value = malloc(sizeof(char) * vl);
+			env_length = _strlen(environ[position]) - name_length;
+			value = malloc(sizeof(char) * env_length);
 
 			if (!value)
 			{
@@ -52,12 +52,12 @@ char *get_enviro_value(char *name)
 				return (NULL);
 			}
 
-			j = 0;
-			for (x = nl + 1; environ[i][x]; x++, j++)
+			i = 0;
+			for (index = name_length + 1; environ[position][index]; index++, i++)
 			{
-				value[j] = environ[i][x];
+				value[i] = environ[position][index];
 			}
-			value[j] = '\0';
+			value[i] = '\0';
 
 			return (value);
 		}

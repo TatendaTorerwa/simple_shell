@@ -9,14 +9,14 @@
 int search_path(char **cmd)
 {
 	char *path, *value, *cmd_path;
-	struct stat buf;
+	struct stat buffer;
 
 	path = get_enviro_value("PATH");
 	value = _strtok(path, ":");
 	while (value != NULL)
 	{
 		cmd_path = construct_path(*cmd, value);
-		if (stat(cmd_path, &buf) == 0)
+		if (stat(cmd_path, &buffer) == 0)
 		{
 			*cmd = _strdup(cmd_path);
 			free(cmd_path);
@@ -41,7 +41,8 @@ char **parse_the_command(char *input)
 {
 	char **reserved_space;
 	char *single_token;
-	int i, buffsize = BUFFER_CAPACITY;
+	int position;
+	int buffsize = BUFFER_CAPACITY;
 
 	if (input == NULL)
 	{
@@ -57,12 +58,12 @@ char **parse_the_command(char *input)
 	}
 
 	single_token = _strtok(input, "\n ");
-	for (i = 0; single_token; i++)
+	for (position = 0; single_token; position++)
 	{
-		reserved_space[i] = single_token;
+		reserved_space[position] = single_token;
 		single_token = _strtok(NULL, "\n ");
 	}
-	reserved_space[i] = NULL;
+	reserved_space[position] = NULL;
 
 	return (reserved_space);
 }
@@ -78,6 +79,7 @@ char **parse_the_command(char *input)
  */
 int execute_the_command(char **cmd, char *input, int c, char **argv)
 {
+	/* Declare error status and child process. */
 	int status;
 	pid_t pid;
 
@@ -86,6 +88,7 @@ int execute_the_command(char **cmd, char *input, int c, char **argv)
 		return (-1);
 	}
 
+	/* Fork and create child process. */
 	pid = fork();
 	if (pid == -1)
 	{
@@ -93,6 +96,7 @@ int execute_the_command(char **cmd, char *input, int c, char **argv)
 		return (-1);
 	}
 
+	/* Then execute the command. */
 	if (pid == 0)
 	{
 		if (_strncmp(*cmd, "./", 2) != 0 && _strncmp(*cmd, "/", 1) != 0)
@@ -100,6 +104,7 @@ int execute_the_command(char **cmd, char *input, int c, char **argv)
 			search_path(cmd);
 		}
 
+		/* Avoid memory leaks. */
 		if (execve(*cmd, cmd, environ) == -1)
 		{
 			display_error(cmd[0], c, argv);
