@@ -92,7 +92,7 @@ char *memory_copy(char *dest, char *src, unsigned int n)
  */
 void *re_allocate(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	void *result;
+	void *final_result;
 
 	if (new_size == old_size)
 	{
@@ -104,24 +104,24 @@ void *re_allocate(void *ptr, unsigned int old_size, unsigned int new_size)
 		free(ptr);
 		return (NULL);
 	}
-	result = malloc(new_size);
+	final_result = malloc(new_size);
 
-	if (result == NULL)
+	if (final_result == NULL)
 	{
 		return (NULL);
 	}
 
 	if (ptr == NULL)
 	{
-		fill_the_array(result, '\0', new_size);
+		fill_the_array(final_result, '\0', new_size);
 		free(ptr);
 	}
 
 	else
 	{
-		memory_copy(result, ptr, old_size);
+		memory_copy(final_result, ptr, old_size);
 		free(ptr);
 	}
-	return (result);
+	return (final_result);
 }
 
